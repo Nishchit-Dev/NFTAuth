@@ -47,8 +47,9 @@ export const RoundedText = styled.div`
   ${config.Fonts.poppins}
   font-size:${(arg) => (arg.size ? arg.size : "16px")};
   font-weight: ${(arg) => (arg.weight ? arg.weight : "400")};
-  border-radius: 7px;
-  border:1px solid black;
+  border-radius: 9999px; /* adjust as needed */
+  border: 1px solid black; /* add a border */
+  padding:1px 5px /* add some space inside the border */
 `;
 
 export const FlexHorizontal = styled.div`
@@ -58,6 +59,7 @@ export const FlexHorizontal = styled.div`
 
 export const ImgContainer = styled.div`
   width:min-content;
+  // box-shadow: 20px 24px 50px -26px rgb(0 0 0 / 25%);
   border-radius:10px;
 `
 export const Img = styled.img`

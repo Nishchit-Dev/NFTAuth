@@ -24,7 +24,7 @@ const Connect = () => {
         var address = await connectWallet()
         setWallet(address);
         setWin(res);
-        navigate('/login',{state:{address}})
+        navigate('/Dashboard',{state:{address}})
       })
       .catch((err) => {
         console.log(err);

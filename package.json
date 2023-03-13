@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@deltachat/react-qr-reader": "^4.0.0",
     "@infura/sdk": "^2.1.5",
     "alchemy-sdk": "^2.6.1",
     "axios": "^1.3.4",
     "ethers": "^6.1.0",
+    "html5-qrcode": "^2.3.7",
+    "jsonwebtoken": "^9.0.0",
+    "lottie-react": "^2.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.9.0",
