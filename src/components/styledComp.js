@@ -65,3 +65,31 @@ export const ImgContainer = styled.div`
 export const Img = styled.img`
   width:190px;
 `
+
+export const QrAlert = styled.div`
+  height:100vh
+  display:flex;
+  background:transparent;
+  justify-content:center;
+  align-items:center;
+`
+
+export const QrBox = styled.div`
+  width:300px;
+`
+
+export const InputField = styled.input`
+    all:unset;
+    font-weight:500;
+    ${config.Fonts.poppins};
+    background-color:#F2F2F2;
+    color:#584848;
+    padding:10px 14px;
+    border-radius:6px;
+    width:250px;
+    margin:5px 0;
+
+    ::hover{
+      pointer:cursor;
+    }
+`;

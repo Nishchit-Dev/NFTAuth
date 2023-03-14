@@ -11,13 +11,16 @@ import {
   RoundedText,
   ImgContainer,
   Img,
+  QrAlert,
+  QrBox,
 } from "../../components/styledComp";
 import Loader from "../../resource/lottie-loading";
 import { connectWallet, signMessage } from "../helper/etherFun";
 import { shortString } from "../helper/utility";
 import { CallAlchemyApi, callServerToVerify } from "./callApi";
+import DisplayQr from "./Qrdisplay";
 
-const ImageContainer = ({ wallet }) => {
+const ImageContainer = ({ wallet,network }) => {
   const [signInfo, setSignInfo] = useState(null);
   const [data, setData] = useState([]);
   const [publicKey,setPublicKey] = useState(null)
@@ -25,23 +28,14 @@ const ImageContainer = ({ wallet }) => {
     if (wallet) {
       signMessage().then((res) => {
         setSignInfo(res);
-        CallAlchemyApi(wallet).then((res) => {
+        console.log(network)
+        CallAlchemyApi(wallet,network).then((res) => {
           console.log(res[0]);
           setData(res);
         });
       });
     }
-    // else{
-    //   connectWallet().then(wallet=>{
-    //     signMessage().then((resp)=>{
-    //       CallAlchemyApi(wallet).then((res) => {
-    //         console.log(res[0]);
-    //         setData(res);
-    //       });
-    //     })
-       
-    //   })
-    // }
+  
   }, []);
 return data.map((ele, index) => {
     return (
@@ -68,7 +62,8 @@ const SingleContainer = ({ url, title, add, tokenId, signInfo,publicKey }) => {
       hash:signInfo.messageHash
     };
     console.log(body)
-    callServerToVerify(body);
+    setShow(!show);
+    // callServerToVerify(body);
     console.log(
       "ContractAddress: ",
       add,
@@ -78,7 +73,30 @@ const SingleContainer = ({ url, title, add, tokenId, signInfo,publicKey }) => {
       signInfo
     );
   };
+  useEffect(()=>{
+    let body = {
+      publicKey:publicKey,
+      contractAddress: add,
+      tokenId: tokenId,
+      signMessage:signInfo.signedMessage,
+      hash:signInfo.messageHash
+    };
+
+    setData(JSON.stringify(body))
+  },[])
+
+  const [show,setShow]= useState(false)
+  const [data,setData] = useState();
+  const checkDisplay =()=>{
+    if(show)
+    {
+      return "none"
+    }else{
+      return "inline"
+    }
+  }
   return (
+
     <ImgContainer style={{ padding: "5px" }} onClick={handleClick}>
       <Block
         style={{
@@ -88,7 +106,14 @@ const SingleContainer = ({ url, title, add, tokenId, signInfo,publicKey }) => {
           width: "190px",
         }}
       >
-        <Img src={url} />
+      
+      
+        {show ?<QrAlert style={{width:"170px"}}>
+          <QrBox>
+            <DisplayQr value={data}> </DisplayQr>
+          </QrBox>
+        </QrAlert>:  <Img src={url} /> }
+        
         <Block>
           <Text pad="0 0 0 8px">{title}</Text>
         </Block>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SimpleDropdown } from "react-js-dropdavn";
 import {
   Center,
   MainContainer,
@@ -11,6 +12,7 @@ import {
   RoundedText,
   ImgContainer,
   Img,
+  QrAlert,
 } from "../../components/styledComp";
 import {
   connectWallet,
@@ -21,12 +23,14 @@ import {
 } from "../helper/etherFun";
 import { shortString } from "../helper/utility";
 import ImageContainer from "./imageContainer";
+import DisplayQr from "./Qrdisplay";
 const Dashboard = () => {
   const [wallet, setWallet] = useState("");
   const [shortAddress, setShortAddress] = useState("");
   const [balance, setBalance] = useState(null);
   const [data, setData] = useState(null);
-  
+  const [netFlag,setNetFlag] = useState(null);
+ const [network,setNetwork] = useState('polygon');
   const handleSignIn = () => {
     connectWallet().then((res) => {
       if (res) {
@@ -57,6 +61,21 @@ const Dashboard = () => {
                   ""
                 )}
               </Block>
+              <Block>
+               <Button style={{borderRadius:"999px"}} onClick={()=>{setNetFlag(!netFlag)}}>{"Network " +network}</Button>
+                  {netFlag? <Block style={{width:'200px',height:"auto",backgroundColor:"#262833",position:"absolute",borderRadius:"4px"}}>
+                    <Flex style={{flexDirection:"column", padding:"0 0 0 10px",}}>
+                      
+                      <Block><Text style={{color:"white"}} onClick={(e)=>{setNetwork('ethereum')}}>Ethereum</Text></Block>
+                      <Block><Text style={{color:"white"}} onClick={(e)=>{setNetwork('goreli')}}>Goreli</Text></Block>
+                      <Block><Text style={{color:"white"}}onClick={(e)=>{setNetwork('polygon')}}>Polygon</Text></Block>
+                      <Block><Text style={{color:"white"}}onClick={(e)=>{setNetwork('mumbai')}}>Mumbai</Text></Block>
+
+                    </Flex>
+                  </Block>:""}
+
+                 
+              </Block>
             </FlexHorizontal>
             {balance > 0 ? (
               <Block pad="20px 0 0 0 ">
@@ -75,8 +94,7 @@ const Dashboard = () => {
 
             <Block pad="20px 0 0 0 ">
               <Flex style={{ margin: "auto" }}>
-                {wallet.length > 0 ?<ImageContainer wallet={wallet} />:"" }
-                
+                {wallet.length > 0 ? <ImageContainer wallet={wallet} network={network} /> : ""}
               </Flex>
             </Block>
             {wallet.length < 1 ? (
